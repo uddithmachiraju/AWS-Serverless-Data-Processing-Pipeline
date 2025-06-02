@@ -1,7 +1,9 @@
+# ---------------------- API ------------------------# 
 API (Application Programming Interface):
     API is basically a way of communicating two software applications. 
     It acts as a bridge between two software applications to communicate or exchange data.
 
+# ---------------------- REST API ------------------------ #
 REST API (Representational State Transfer API):
     REST is a architecture that adds some rules and procedures to the API.
     The API that follows the REST architecture is called RESTful API. 

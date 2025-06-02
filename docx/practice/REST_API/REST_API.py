@@ -97,7 +97,7 @@ def delete_books(id):
         }
     ), 200 
 
-# PUT - update a record - curl -X PUT http://localhost:5000/books/update/1 -H "Content-Type: application/json(change it accordingly)" -d '{"Name": "ABC-V1", "Author": "ABC-V1 Person"}'
+# PUT - update a record - curl -X PUT http://localhost:5000/books/update/1 -H "Content-Type: application/json" -d '{"Name": "ABC-V1", "Author": "ABC-V1 Person"}'
 @app.route("/books/update/<id>", methods = ["PUT"])
 def update_record(id):
     record = Book.query.get_or_404(id) 
@@ -130,7 +130,7 @@ def update_record(id):
             "previous_record": previous_record,
             "updated_record": new_record
         }
-    ) 
+    ), 200
 
 if __name__ == "__main__":
     app.run(host = "0.0.0.0", port = 5000, debug = True)  
