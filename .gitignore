@@ -39,3 +39,6 @@ override.tf.json
 *.DS_Store
 .idea/
 .vscode/
+
+# Enviroment variables
+.env

@@ -37,15 +37,3 @@ lets say, someone hits your API call and the API Gateway process the request in 
 
 * Creation of API Gateway in AWS using Terraform: 
     **API Gateway -> REST/HTTP/Websocket(Create) -> Add resources/routes/Methods(Method Request) -> Add Integration (Lambda/MOCK/HTTP) -> Integration Response -> Method Response**
-
-Install AWS CLI:
-    curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
-    unzip awscli-bundle.zip
-    sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
-
-Configure AWS:
-    Go to Security Credientials and create an access key, and run
-    1. aws configure and paste all the things 
-
-Install Terraform:
-    https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli (go throught the documentation steps)
