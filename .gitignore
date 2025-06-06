@@ -42,3 +42,6 @@ override.tf.json
 
 # Enviroment variables
 .env
+
+# Extra
+book_api
