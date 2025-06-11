@@ -4,7 +4,29 @@ In this project, I was going to build a **serverless Data Processing Pipeline** 
 3. Trigers a Lambda function when new data added (process the data)
 4. Adds the data to the DynamoDB
 
-Install Python:
+Project Goal:
+User submits data via REST API -> stored in S3 -> Triggers Lambda -> Process data -> saves to DynamoDB
+
+Phase 1:
+- Project Setup:
+    1. Create a github repo 
+    2. Create a API Gateway URL with MOCK Integration as of now 
+
+Phase 2:
+- S3 Integration
+
+Phase 3:
+- Lambda Processing
+
+Phase 4:
+- DynamoDB Storage
+
+Phase 5:
+- Deploy API to AWS
+    1. Use API Gateway to Integrate 
+
+Phase 6:
+- CloudWatch Logs
 
 
 Install AWS CLI:

@@ -10,6 +10,18 @@ resource "aws_api_gateway_rest_api" "books_api" {
 	description = "Basically a bunch of API enpoints for add, update, delete, and get books in a library database."
 }
 
+# ----------------------------- LAMBDA Function ----------------------------- #
+
+resource "aws_lambda_function" "lambda_book" {
+  function_name = "Lambda function for book"
+  description = "Integrating my book api with lambda" 
+  filename = "lambda_payload.zip"
+  handler = "main.handler" 
+  runtime = "python3.10"
+
+  role = "Nothing" 
+}
+
 # -------------- Resources (all the endpoints) --------------- # 
 
 # /books
