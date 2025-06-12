@@ -21,49 +21,59 @@ resource "aws_api_gateway_method" "post_submit" {
   http_method   = "POST"
 }
 
-# Integrate it with MOCK as of now 
-resource "aws_api_gateway_integration" "mock_integration" {
+# Integrate it with AWS Lambda (if we use lambda we need to add permisions to API Gateway to invoke the lambda) 
+resource "aws_api_gateway_integration" "lambda_integration" {
   rest_api_id = aws_api_gateway_rest_api.serverless-D2P.id 
   resource_id = aws_api_gateway_resource.submit_route.id 
   http_method = aws_api_gateway_method.post_submit.http_method 
-  type        = "MOCK"
+  integration_http_method = "POST" 
+  type        = "AWS_PROXY"
+  uri         = var.invoke_arn
 
-  request_templates = {
-    "application/json" = "{\"statusCode\": 200}" 
-  }
 }
 
-# Add a method response for the method (POST) we created
-resource "aws_api_gateway_method_response" "post_submit_response" {
-  rest_api_id = aws_api_gateway_rest_api.serverless-D2P.id 
-  resource_id = aws_api_gateway_resource.submit_route.id
-  http_method = aws_api_gateway_method.post_submit.http_method 
-  status_code = "200" 
-
-  response_models = {
-    "application/json" = "Empty"
-  }
+# Lambda permission to API Gateway 
+resource "aws_lambda_permission" "permission" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = var.lambda_func
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.serverless-D2P.execution_arn}/*/*"
 }
 
-# We need to add a integration response (to MOCK)
-resource "aws_api_gateway_integration_response" "post_submit_integration_response" {
-  rest_api_id = aws_api_gateway_rest_api.serverless-D2P.id 
-  resource_id = aws_api_gateway_resource.submit_route.id 
-  http_method = aws_api_gateway_method.post_submit.http_method 
-  status_code = aws_api_gateway_method_response.post_submit_response.status_code
+# These guys only require when using MOCK
 
-  response_templates = {
-    "application/json" = <<EOF
-    {
-      "message": "It is a post method in /submit URL"
-    }
-    EOF
-  }
-}
+# # Add a method response for the method (POST) we created
+# resource "aws_api_gateway_method_response" "post_submit_response" {
+#   rest_api_id = aws_api_gateway_rest_api.serverless-D2P.id 
+#   resource_id = aws_api_gateway_resource.submit_route.id
+#   http_method = aws_api_gateway_method.post_submit.http_method 
+#   status_code = "200" 
+
+#   response_models = {
+#     "application/json" = "Empty"
+#   }
+# }
+
+# # We need to add a integration response (to MOCK)
+# resource "aws_api_gateway_integration_response" "post_submit_integration_response" {
+#   rest_api_id = aws_api_gateway_rest_api.serverless-D2P.id 
+#   resource_id = aws_api_gateway_resource.submit_route.id 
+#   http_method = aws_api_gateway_method.post_submit.http_method 
+#   status_code = aws_api_gateway_method_response.post_submit_response.status_code
+
+#   response_templates = {
+#     "application/json" = <<EOF
+#     {
+#       "message": "It is a post method in /submit URL"
+#     }
+#     EOF
+#   }
+# }
 
 # Deploy out API 
 resource "aws_api_gateway_deployment" "mock_deployment" {
-  depends_on  = [aws_api_gateway_integration.mock_integration] 
+  depends_on  = [aws_api_gateway_integration.lambda_integration] 
   rest_api_id = aws_api_gateway_rest_api.serverless-D2P.id 
   stage_name  = "dev" 
 }
